@@ -1,0 +1,496 @@
+<apex:page controller="Test">
+<html>
+<head lang="en">
+    <title>Salesforce Chronology UI</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <style>
+    
+
+table {
+	font-family: arial, sans-serif;
+	border-collapse: collapse;
+	width: 100%;
+	border: 1px solid #ddd;
+	border-spacing: 0;
+	margin: 0 auto;
+}
+
+td, th {
+	border: 1px solid #ddd;
+	text-align: left;
+	padding: 8px;
+	margin: 0 auto;
+	border-collapse: collapse;
+}
+
+th {
+	background-color: #dddddd;
+}
+       <!-- <input id="remoteText" style="visibility:hidden" value="apex:outputText value="" />  -->
+   <!--<apex:inputTextarea id=”remoteText” value=”{!response}” styleClass=”exampleDataToSetVariable” style=”display:none;”/>-->
+tr:nth-child(odd) {
+	background-color: #f2f2f2;
+
+    </style>
+</head>
+
+<body>
+        
+        <img src="http://52.36.58.80/sf-chronology-ui/images/case.png" alt="Mountain View" style="width:304px;height:228px;"/>
+
+    <div id="accordion">
+        <div><div id="container" style="min-width: 310px; height: 400px; margin: 0 auto;"></div></div>
+    </div>
+    <br/>
+    <div>
+        <table id="largeTable"></table>
+    </div>
+        
+    <script>
+            
+      loadChart("hdsvhddh",JSON.stringify({!response}));
+    
+
+
+function loadChart(caseID, json_string_data) {
+
+    // variable defined
+
+    var xAxisDate = [];
+    var tableHeader = ['Element', 'Subject', 'Text Body', 'Created Date', 'Last Modified Date', 'New Value', 'Solution Id', 'Comment'];
+    var tableString = '';
+    var inboundData = [];
+    var outboundData = [];
+    var typeElement = '';
+    var seriesGraphData = [];
+
+    // utility functions
+	
+    function cleanStr (txt) {
+        return (txt == null) ? "": txt.replace('\n', '<br/>').replace('\r', ' ');
+    }
+
+    function replaceNull (val) {
+        return (val == null) ? "": val;
+    }
+
+    /*
+    Table related data
+    */
+	  
+    function findTableHeaderIndex(str) {
+        return (str == null) ? -1: tableHeader.indexOf(str);
+    }
+
+    function createTableTr(trArray) {
+        var txt = '<tr>';
+        jQuery.each( trArray, function( i, val ) {
+            txt = txt + '<td>' + val + '</td>';
+        });
+        txt = txt + '</tr>';
+        return txt;
+    }
+
+    function createTable() {
+
+        var txt = '<tr>';
+        jQuery.each(tableHeader, function( i, val ) {
+            txt = txt + '<th>' + val + '</th>';
+        });
+        txt = txt + '</tr>';
+        tableString = txt + tableString;
+    }
+
+    /*
+    GRAPH RELATED Functions
+    */
+
+    function createHoverData(graphElement) {
+        var txt = '';
+        jQuery.each(graphElement, function( i, val ) {
+            if (val.trim()) {
+                txt = txt + val ;
+            }
+        });
+        return txt;
+    }
+
+    function prepareGraphElem(k, v) {
+        return '<tr><td>' +k+ ' : </td><td><b>' + v + '</b></td></tr>';
+    }
+
+    function getMakerHeight(cleanText) {
+        cleanText = cleanText.toLowerCase();
+
+        if (cleanText === 'attachments') {
+            return 40;
+        } else if (cleanText === 'email') {
+            return 40;
+        } else if (cleanText === 'histories') {
+            return 40;
+        } else if (cleanText === 'openactivities') {
+            return 40;
+        } else if (cleanText === 'casecomments') {
+            return 40;
+        } else if (cleanText === 'casesolutions') {
+            return 40;
+        } else if (cleanText === 'case') {
+            return 40;
+        }
+    }
+
+    function getMakerWidth(cleanText) {
+        cleanText = cleanText.toLowerCase();
+
+        if (cleanText === 'attachments') {
+            return 40;
+        } else if (cleanText === 'email') {
+            return 40;
+        } else if (cleanText === 'histories') {
+            return 40;
+        } else if (cleanText === 'openactivities') {
+            return 40;
+        } else if (cleanText === 'casecomments') {
+            return 40;
+        } else if (cleanText === 'casesolutions') {
+            return 40;
+        } else if (cleanText === 'case') {
+            return 40;
+        }
+    }
+
+    function getmarkerSymbol(cleanText) {
+
+        cleanText = cleanText.toLowerCase();
+
+        if (cleanText === 'attachments') {
+            //return 'url(http://www.iconsdb.com/icons/preview/caribbean-blue/paper-clip-2-xxl.png)';
+        	return 'url(images/attachment.png)';
+        } else if (cleanText === 'email') {
+            //return 'url(http://www.freeiconspng.com/uploads/email-icon-3.jpg)';
+        	return 'url(images/email.png)';
+        } else if (cleanText === 'histories') {
+           // return 'url(http://www.iconshock.com/img_jpg/BETA/accounting/jpg/256/history_icon.jpg)';
+        	return 'url(images/history.png)';
+        } else if (cleanText === 'openactivities') {
+           // return 'url(https://serialio.com/sites/default/files/file_transfer_icon_113x95.png)';
+        	return 'url(http://52.36.58.80/sf-chronology-ui/images/activity.png)';
+        } else if (cleanText === 'casecomments') {
+            //return 'url(http://www.freeiconspng.com/uploads/online-survey-icon-2.jpg)';
+            return 'url(http://52.36.58.80/sf-chronology-ui/images/comments.png)';
+        } else if (cleanText === 'casesolutions') {
+            //return 'url(https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcRJlQaDxEWCV-rS92OAMqEICmN4jG51QXPpD1o7D-bTYLiiKhIW)';
+        	return 'url(http://52.36.58.80/sf-chronology-ui/images/solution.png)';
+        }else if (cleanText === 'case') {
+            //return 'url(https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcRJlQaDxEWCV-rS92OAMqEICmN4jG51QXPpD1o7D-bTYLiiKhIW)';
+            //return 'url(http://52.36.58.80/sf-chronology-ui/images/case.png)';
+            'url(http://d2kv389z282s26.cloudfront.net/wp-content/blogs.dir/1/files/2013/05/email-logo.jpg)';
+        }
+    }
+
+    function appendMarker(graphData, cleanText) {
+        var data = {};
+        data["symbol"] = getmarkerSymbol(cleanText);
+        data["width"] = getMakerWidth(cleanText);
+        data["height"] = getMakerHeight(cleanText);
+
+        graphData["marker"] = data
+    }
+
+    function prepareGrapgInOutBound(typeElement, graphData) {
+        if (typeElement === 'inbound') {
+            inboundData.push(graphData);
+        } else if (typeElement === 'outbound') {
+            outboundData.push(graphData);
+        }
+    }
+
+    function insertGraphHoverData(graphData, graphElement) {
+        graphData['hoverData'] = createHoverData(graphElement);
+    }
+
+    function prepareGraphSeries() {
+        var typeName = {};
+        typeName["name"] = 'Inbound';
+        typeName["data"] = inboundData;
+        seriesGraphData.push(typeName);
+        typeName = {};
+        typeName["name"] = 'Outbound';
+        typeName["data"] = outboundData;
+        seriesGraphData.push(typeName);
+    }
+
+    /*
+    Common for both graph and table
+    */
+
+    function parseData(k, v, tableTRArray, graphData, graphElement) {
+        k = replaceNull(k).toLowerCase();
+
+        if (k === 'textbody') {
+            var cleanText = cleanStr(replaceNull(v));
+            var indexThHeader = findTableHeaderIndex('Text Body');
+            tableTRArray.splice(indexThHeader, 1,  cleanText);
+            graphElement.splice(2,1,prepareGraphElem(k,cleanText));
+        } else if (k === 'subject') {
+            var cleanText = cleanStr(replaceNull(v));
+            var indexThHeader = findTableHeaderIndex('Subject');
+            tableTRArray.splice(indexThHeader, 1,  cleanText);
+            graphElement.splice(1,1,prepareGraphElem(k,cleanText));
+        } else if (k === 'element') {
+            var cleanText = cleanStr(replaceNull(v));
+            var indexThHeader = findTableHeaderIndex('Element');
+            tableTRArray.splice(indexThHeader, 1,  cleanText);
+            graphElement.splice(0,1,prepareGraphElem(k,cleanText));
+            appendMarker(graphData, cleanText);
+        } else if (k === 'createddate') {
+            var cleanText = cleanStr(replaceNull(v));
+            var indexThHeader = findTableHeaderIndex('Created Date');
+            tableTRArray.splice(indexThHeader, 1,  cleanText);
+            graphElement.splice(3,1,prepareGraphElem(k,cleanText));
+        } else if (k === 'lastmodifieddate') {
+            var cleanText = cleanStr(replaceNull(v));
+            var indexThHeader = findTableHeaderIndex('Last Modified Date');
+            tableTRArray.splice(indexThHeader, 1,  cleanText);
+            graphElement.splice(4,1,prepareGraphElem(k,cleanText));
+        } else if (k === 'caseid') {
+            var cleanText = cleanStr(replaceNull(v));
+            var indexThHeader = findTableHeaderIndex('Case Id');
+            //tableTRArray.splice(indexThHeader, 1,  cleanText);
+            graphElement.splice(5,1,prepareGraphElem(k,cleanText));
+        } else if (k === 'newvalue') {
+            var cleanText = cleanStr(replaceNull(v));
+            var indexThHeader = findTableHeaderIndex('New Value');
+            tableTRArray.splice(indexThHeader, 1,  cleanText);
+            graphElement.splice(6,1,prepareGraphElem(k,cleanText));
+        } else if (k === 'solutionid') {
+            var cleanText = cleanStr(replaceNull(v));
+            var indexThHeader = findTableHeaderIndex('Solution Id');
+            tableTRArray.splice(indexThHeader, 1,  cleanText);
+            graphElement.splice(7,1,prepareGraphElem(k,cleanText));
+        } else if (k === 'parentid') {
+            var cleanText = cleanStr(replaceNull(v));
+            var indexThHeader = findTableHeaderIndex('Parent Id');
+            //tableTRArray.splice(indexThHeader, 1,  cleanText);
+            graphElement.splice(8,1,prepareGraphElem(k,cleanText));
+        } else if (k === 'accountid') {
+            var cleanText = cleanStr(replaceNull(v));
+            var indexThHeader = findTableHeaderIndex('Account Id');
+            //tableTRArray.splice(indexThHeader, 1,  cleanText);
+            graphElement.splice(9,1,prepareGraphElem(k,cleanText));
+        } else if (k === 'name') {
+            var cleanText = cleanStr(replaceNull(v));
+            var indexThHeader = findTableHeaderIndex('Name');
+            //tableTRArray.splice(indexThHeader, 1,  cleanText);
+            graphElement.splice(10,1,prepareGraphElem(k,cleanText));
+        } else if (k === 'comment') {
+            var cleanText = cleanStr(replaceNull(v));
+            var indexThHeader = findTableHeaderIndex('Comment');
+            tableTRArray.splice(indexThHeader, 1,  cleanText);
+            graphElement.splice(11,1,prepareGraphElem(k,cleanText));
+        } else if (k === 'date') {
+            var cleanText = cleanStr(replaceNull(v));
+            var indexThHeader = findTableHeaderIndex('Date');
+            //tableTRArray.splice(indexThHeader, 1,  cleanText);
+            graphElement.splice(12,1,prepareGraphElem(k,cleanText));
+        } else if (k === 'type') {
+            var cleanText = cleanStr(replaceNull(v)).toLowerCase();
+            if (cleanText === "inbound") {
+                graphData["y"] = 0;
+                typeElement = 'inbound';
+            } else if (cleanText === "outbound") {
+                graphData["y"] = 1;
+                typeElement = 'outbound';
+            }
+        }
+    }
+
+    var count = 0;
+    $.each($.parseJSON(json_string_data), function(k, v) {
+        // check if key text (datetime as key) is not null or empty
+        if (k != null) {
+	  
+	        k = k.trim();
+	
+	        if (k) {
+                // graph needs data as key and value pair
+                var graphData = {};
+                graphData["x"] = count;
+                // data for graph X Axis  (date time)
+                var keyDate = k.split('.')[0].replace('T', '-');
+                xAxisDate.push(keyDate);
+
+                var tableTRArray = ['', '', '', '', '', '', '', ''];
+                var graphElement = ['', '', '', '', '', '', '', '', '', '', '', '', '', ''];
+
+    
+                $.each(v, function(k, v) {
+                    if (k != null) {
+            	        k = k.trim();
+            	        if (k) {
+                            parseData(k, v, tableTRArray, graphData, graphElement);
+            	        }
+                    }
+                });
+
+                tableString = tableString+createTableTr(tableTRArray);
+                //preparing graph hover data and pushing to graph data structure
+                insertGraphHoverData(graphData, graphElement);
+                prepareGrapgInOutBound(typeElement, graphData);
+
+                count = count+1;
+	        }
+        }
+    });
+
+    prepareGraphSeries();
+    createTable();
+
+    var chartData = {
+        chart: {
+            type: 'scatter'
+        },
+        yAxis: {
+            categories: ['Inbound', 'Outbound']
+        },
+        tooltip: {
+            shared: true,
+            useHTML: true,
+            headerFormat: '<table>',
+            pointFormat: '{point.hoverData}',
+            footerFormat: '</table>',
+            valueDecimals: 2
+        },
+        credits: {
+            text: 'Concur.com',
+            href: 'http://www.concur.com'
+        },
+        exporting:{
+        	  enabled:true
+        },
+        plotOptions: {
+            scatter: {
+                marker: {
+                    enabled: true
+                }
+            }
+        }
+    };
+
+
+    Highcharts.createElement('link', {
+        href: 'https://fonts.googleapis.com/css?family=Signika:400,700',
+        rel: 'stylesheet',
+        type: 'text/css'
+    }, null, document.getElementsByTagName('head')[0]);
+
+    //Add the background image to the container
+    Highcharts.wrap(Highcharts.Chart.prototype, 'getContainer', function (proceed) {
+        proceed.call(this);
+        this.container.style.background = 'url(http://www.highcharts.com/samples/graphics/sand.png)';
+    });
+
+    Highcharts.theme = {
+        colors: ['#f45b5b', '#8085e9', '#8d4654', '#7798BF', '#aaeeee', '#ff0066', '#eeaaee',
+                 '#55BF3B', '#DF5353', '#7798BF', '#aaeeee'],
+        chart: {
+            backgroundColor: null,
+        style: {
+            fontFamily: 'Signika, serif'
+        }
+    },
+    title: {
+        style: {
+            color: 'black',
+            fontSize: '16px',
+            fontWeight: 'bold'
+        }
+    },
+    subtitle: {
+        style: {
+            color: 'black'
+        }
+    },
+    tooltip: {
+        borderWidth: 0
+    },
+    legend: {
+        itemStyle: {
+            fontWeight: 'bold',
+            fontSize: '13px'
+        }
+    },
+    xAxis: {
+        labels: {
+            style: {
+                color: '#6e6e70'
+            }
+        }
+    },
+    yAxis: {
+        labels: {
+            style: {
+                color: '#6e6e70'
+            }
+        }
+    },
+    plotOptions: {
+        series: {
+            shadow: true
+        },
+        candlestick: {
+            lineColor: '#404048'
+        },
+        map: {
+            shadow: false
+        }
+    },
+
+    // Highstock specific
+    navigator: {
+        xAxis: {
+            gridLineColor: '#D0D0D8'
+        }
+    },
+    rangeSelector: {
+        buttonTheme: {
+            fill: 'white',
+            stroke: '#C0C0C8',
+            'stroke-width': 1,
+            states: {
+                select: {
+                    fill: '#D0D0D8'
+                }
+            }
+        }
+    },
+    scrollbar: {
+         trackBorderColor: '#C0C0C8'
+    },
+
+    // General
+    background2: '#E0E0E8'
+
+    };
+
+    //Apply the theme
+    Highcharts.setOptions(Highcharts.theme);
+    
+    chartData["title"] = {text: 'Case ID : '+caseID};
+    chartData["xAxis"] = {"categories":xAxisDate};
+    chartData["series"] = seriesGraphData
+    Highcharts.chart('container', chartData);
+
+    $("#largeTable").html(tableString);
+}
+    </script>
+</body>
+</html>
+
+
+
+  
+</apex:page>

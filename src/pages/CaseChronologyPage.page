@@ -1,0 +1,89 @@
+<apex:page standardController="Case" extensions="CaseController" sidebar="false" >
+    <html>
+        <head lang="en">
+            <title>Salesforce Chronology UI</title>
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+            <apex:includeScript value="{!URLFOR($Resource.CaseChronology, '/static/js/lib/jquery.min.js')}"/>
+            <apex:includeScript value="{!URLFOR($Resource.CaseChronology, '/static/js/lib/bootstrap.min.js')}"/>
+            
+            <link href="{!URLFOR($Resource.CaseChronology, '/static/css/lib/bootstrap.min.css')}" rel="stylesheet"/>
+            <link href="{!URLFOR($Resource.CaseChronology, '/static/css/bootstrap_tooltip.css')}" rel="stylesheet"/>
+            <link href="{!URLFOR($Resource.CaseChronology, '/static/css/case_history.css')}" rel="stylesheet"/>
+            <link href="{!URLFOR($Resource.CaseChronology, '/static/css/case_profile.css')}" rel="stylesheet"/>
+            <apex:includeScript value="{!URLFOR($Resource.CaseChronology, '/static/js/common.js')}"/>
+            <apex:includeScript value="{!URLFOR($Resource.CaseChronology, '/static/js/case_history.js')}"/>
+            <apex:includeScript value="{!URLFOR($Resource.CaseChronology, '/static/js/case_profile.js')}"/>
+            <style>
+                 @media only screen and (max-width: 320px) {
+                     body { font-size: 2em; }
+                 }
+                 
+                 @media (max-width: 320px) {
+                     .tooltip-inner {
+                         min-width: initial;
+                         width: 320px;
+                    }
+                }
+
+            </style>
+        </head>
+
+        <body>
+            <apex:pageMessages ></apex:pageMessages>
+            <!--<input id="remoteText" value="{!caseProfileFinalResult}" />-->
+            <!--<apex:inputTextarea id=”remoteText” value=”{!response}” styleClass=”exampleDataToSetVariable” style=”display:none;”/>-->
+
+            <!--<apex:form ><apex:commandButton action="{!getFinishPage}" value="Return to Case" /></apex:form>-->
+            <!--<apex:outputText value="{!CaseJsonString}" />-->
+            <apex:form ><apex:commandButton action="{!redirectToCase}" value="Return to Case" /></apex:form>
+           
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Case Profile</h3>
+                    </div>
+                    <div >
+                        <div class="panel-body">
+                            <table class="customCaseProfileTable bg-warning" id="caseProfileTable"></table>
+                        </div>
+                    </div>
+                </div>   
+
+                <div class="panel-group" id="accordion">
+                    <div class="panel panel-info">
+                        <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#collapse1">
+                            <h3 class="panel-title">Case History</h3>
+                        </div>
+                        <div id="collapse1" class="panel-collapse collapse out">
+                            <div class="panel-body"><table id="largeTable" class='customTable table table-bordered' ></table></div>
+                        </div>
+                    </div>
+                </div>
+            
+            <script>
+                $( document ).ready(function() {
+                    
+                    var consolidatedJson = {!JsonResult};
+                    
+                    if (!jQuery.isEmptyObject(consolidatedJson) || consolidatedJson != null) {
+                            
+                        if (consolidatedJson.hasOwnProperty('caseProfile')) {
+                            var caseProfileJson = consolidatedJson['caseProfile'];
+
+                            if (!jQuery.isEmptyObject(caseProfileJson) || caseProfileJson != null) {
+                                loadCaseProfileTable(caseProfileJson);
+                            }
+                        }
+
+                        if (consolidatedJson.hasOwnProperty('caseHistory')) {
+                            var caseHistoryJson = consolidatedJson['caseHistory'];
+
+                            if (!jQuery.isEmptyObject(caseHistoryJson) || caseHistoryJson != null) {
+                                loadHistoryTable(caseHistoryJson);
+                            }
+                        }
+                    }
+                });
+            </script>
+        </body>
+    </html>
+</apex:page>
