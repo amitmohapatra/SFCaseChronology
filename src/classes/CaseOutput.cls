@@ -22,13 +22,12 @@ public class CaseOutput implements Output {
 			System.debug(className+' : getJson() : inside function');
 
 			Map<String, String> result = new Map<String, String>();
-
+     
 			String caseHistoryJson = new CaseHistory(queryResult).getResultJson();
 			result.put('caseHistory', caseHistoryJson);
 			String caseProfileJson = new CaseProfile(queryResult).getResultJson();
 			result.put('caseProfile', caseProfileJson);
 			String caseresult = (String)Json.serialize(result);
-
 			System.debug(className+' : getJson() : result -> '+ caseresult);
 			return caseresult;
 		} catch(Exception e) {

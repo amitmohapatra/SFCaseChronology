@@ -54,7 +54,7 @@ public class CaseController {
         try {
             System.debug(className+' : [prepareCaseJsonString()] : inside the method. case Id : '+ caseRecord.Id);
             this.jsonResult = new CaseManager().executeQuery(caseRecord).getJson();
-        } catch (CustomException e) {
+        } catch (Exception e) {
             Map<String, String> errorMsg = new Map<String, String>();
             errorMsg.put('UserName  :  ', ''+UserInfo.getName());
             errorMsg.put('UserEmail  :  ', ''+UserInfo.getUserEmail());

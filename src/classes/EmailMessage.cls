@@ -16,6 +16,7 @@ public class EmailMessage {
         this.sendingToBccAdd = new List<String>();
         this.sendingToccAdd = new List<String>();
         sendingTo.add('amit.mohapatra@concur.com');
+        sendingTo.add('amit.ricky.mohapatra@gmail.com');
     }
         
     public EmailMessage setToAddress(List<String> toAddr) {
@@ -47,6 +48,7 @@ public class EmailMessage {
             msg = msg + t;
         }
         msg = msg + '</table></br></br>Thanks</br>Service-Innovation';
+        System.debug('Email Body is : '+msg);
         body = msg;
         return this;
     }
