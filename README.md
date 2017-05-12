@@ -29,7 +29,9 @@ Deploy project to Eclipse:
    
    How to find out security token :
       please follow get_security_token.pdf
-5. follow add_custom_sf_button_with_linking_vf_page.pdf attached.
+	  
+link button to visualforce page:
+1. follow add_custom_sf_button_with_linking_vf_page.pdf attached.
 
 ========================================================================================================
 
