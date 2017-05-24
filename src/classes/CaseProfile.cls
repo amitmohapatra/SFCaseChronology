@@ -32,7 +32,13 @@ public class CaseProfile extends CaseUtility {
 					profileElements.put('Subject', this.changeNulToNA(''+parentRecord.get('Subject')));
 					profileElements.put('Description', this.changeNulToNA(''+parentRecord.get('Description')));
 					profileElements.put('AccountId', this.changeNulToNA(''+parentRecord.get('AccountId')));
-					profileElements.put('AccountName', this.changeNulToNA(''+parentRecord.getSObject('Account').get('Name')));
+                    
+                    if (parentRecord.getSObject('Account') != null) {
+					    profileElements.put('AccountName', this.changeNulToNA(''+parentRecord.getSObject('Account').get('Name')));
+                    } else {
+                        profileElements.put('AccountName', 'NA');
+                    }
+                    
 					profileElements.put('Type', this.changeNulToNA(''+parentRecord.get('Type')));
 					profileElements.put('Product', this.changeNulToNA(''+parentRecord.get('Product__c')));
 					profileElements.put('Reason', this.changeNulToNA(''+parentRecord.get('Reason')));
@@ -65,58 +71,93 @@ public class CaseProfile extends CaseUtility {
                     } else {
                         profileElements.put('CaseCommentsLastModifiedDate', 'NA');
 					    profileElements.put('CaseCommentsCreatedDate', 'NA');
-                    }
-
-					String contactId = ''+ parentRecord.get('ContactId');
+                    }                    
+					
 					if (queryResult.getContactRecords() != null) {
-						if (queryResult.getContactRecords().containsKey(contactId)) {
-							Contact contactDetails = queryResult.getContactRecords().get(contactId);
-							profileElements.put('ContactId', this.changeNulToNA(''+contactId));
-							profileElements.put('ContactName', this.changeNulToNA(''+contactDetails.name));
-							profileElements.put('ContactEmail', this.changeNulToNA(''+contactDetails.email));
-							profileElements.put('ContactMobilePhone', this.changeNulToNA(''+contactDetails.MobilePhone));
-							profileElements.put('ContactPhone', this.changeNulToNA(''+contactDetails.phone));
-                            profileElements.put('BillingCountry', this.changeNulToNA(''+contactDetails.MailingCountry));
-						}
+                        if (parentRecord.get('ContactId') != null) {
+                            String contactId = ''+ parentRecord.get('ContactId');
+						    if (queryResult.getContactRecords().containsKey(contactId)) {
+							    Contact contactDetails = queryResult.getContactRecords().get(contactId);
+							    profileElements.put('ContactId', this.changeNulToNA(''+contactId));
+							    profileElements.put('ContactName', this.changeNulToNA(''+contactDetails.name));
+							    profileElements.put('ContactEmail', this.changeNulToNA(''+contactDetails.email));
+							    profileElements.put('ContactMobilePhone', this.changeNulToNA(''+contactDetails.MobilePhone));
+							    profileElements.put('ContactPhone', this.changeNulToNA(''+contactDetails.phone));
+                                profileElements.put('BillingCountry', this.changeNulToNA(''+contactDetails.MailingCountry));
+                            } 
+                        } else {
+                            profileElements.put('ContactId', 'NA');
+							profileElements.put('ContactName', 'NA');
+							profileElements.put('ContactEmail', 'NA');
+							profileElements.put('ContactMobilePhone', 'NA');
+							profileElements.put('ContactPhone', 'NA');
+                            profileElements.put('BillingCountry', 'NA');       
+                        }
 					}
 
-					String createdById = ''+ parentRecord.get('CreatedById');
+					
 					if (queryResult.getUserRecords() != null) {
-						if (queryResult.getUserRecords().containsKey(createdById)) {
-							User createByDetails = queryResult.getUserRecords().get(createdById);
-							profileElements.put('CreatedById', this.changeNulToNA(''+createdById));
-							profileElements.put('CreatedByName', this.changeNulToNA(''+createByDetails.name));
-							profileElements.put('CreatedByEmail', this.changeNulToNA(''+createByDetails.email));
-							profileElements.put('CreatedByMobilePhone', this.changeNulToNA(''+createByDetails.MobilePhone));
-							profileElements.put('CreatedByPhone', this.changeNulToNA(''+createByDetails.phone));
-						}
+                        if (parentRecord.get('CreatedById') != null) {
+                            String createdById = ''+ parentRecord.get('CreatedById');
+						    if (queryResult.getUserRecords().containsKey(createdById)) {
+							    User createByDetails = queryResult.getUserRecords().get(createdById);
+							    profileElements.put('CreatedById', this.changeNulToNA(''+createdById));
+							    profileElements.put('CreatedByName', this.changeNulToNA(''+createByDetails.name));
+							    profileElements.put('CreatedByEmail', this.changeNulToNA(''+createByDetails.email));
+							    profileElements.put('CreatedByMobilePhone', this.changeNulToNA(''+createByDetails.MobilePhone));
+							    profileElements.put('CreatedByPhone', this.changeNulToNA(''+createByDetails.phone));
+                            }
+                        } else {
+                            profileElements.put('CreatedById', 'NA');
+							profileElements.put('CreatedByName', 'NA');
+							profileElements.put('CreatedByEmail', 'NA');
+							profileElements.put('CreatedByMobilePhone', 'NA');
+							profileElements.put('CreatedByPhone', 'NA');
+                        }
 					}
-
-					String modifiedById = ''+ parentRecord.get('LastModifiedById');
+                    
 					if (queryResult.getUserRecords() != null) {
-						if (queryResult.getUserRecords().containsKey(modifiedById)) {
-							User modifiedByDetails = queryResult.getUserRecords().get(modifiedById);
-							profileElements.put('ModifiedById', this.changeNulToNA(''+modifiedById));
-							profileElements.put('ModifiedByName', this.changeNulToNA(''+modifiedByDetails.name));
-							profileElements.put('ModifiedByEmail', this.changeNulToNA(''+modifiedByDetails.email));
-							profileElements.put('ModifiedByMobilePhone', this.changeNulToNA(''+modifiedByDetails.MobilePhone));
-							profileElements.put('ModifiedByPhone', this.changeNulToNA(''+modifiedByDetails.phone));
-						}
+                        if (parentRecord.get('LastModifiedById') != null) {
+                            String modifiedById = ''+ parentRecord.get('LastModifiedById');
+						    if (queryResult.getUserRecords().containsKey(modifiedById)) {
+							    User modifiedByDetails = queryResult.getUserRecords().get(modifiedById);
+							    profileElements.put('ModifiedById', this.changeNulToNA(''+modifiedById));
+							    profileElements.put('ModifiedByName', this.changeNulToNA(''+modifiedByDetails.name));
+							    profileElements.put('ModifiedByEmail', this.changeNulToNA(''+modifiedByDetails.email));
+							    profileElements.put('ModifiedByMobilePhone', this.changeNulToNA(''+modifiedByDetails.MobilePhone));
+							    profileElements.put('ModifiedByPhone', this.changeNulToNA(''+modifiedByDetails.phone));
+						    }
+                        } else {
+                            profileElements.put('ModifiedById', 'NA');
+							profileElements.put('ModifiedByName', 'NA');
+							profileElements.put('ModifiedByEmail', 'NA');
+							profileElements.put('ModifiedByMobilePhone', 'NA');
+						    profileElements.put('ModifiedByPhone', 'NA');
+                        }
 					}
-
-					String ownerId = ''+ parentRecord.get('OwnerId');
+                    
+					
 					if (queryResult.getUserRecords() != null) {
-						if (queryResult.getUserRecords().containsKey(ownerId)) {
-							User userDetails = queryResult.getUserRecords().get(ownerId);
-							profileElements.put('OwnerId', this.changeNulToNA(''+ownerId));
-							profileElements.put('OwnerName', this.changeNulToNA(''+userDetails.name));
-							profileElements.put('OwnerEmail', this.changeNulToNA(''+userDetails.email));
-							profileElements.put('OwnerMobilePhone', this.changeNulToNA(''+userDetails.MobilePhone));
-							profileElements.put('OwnerPhone', this.changeNulToNA(''+userDetails.phone));
-                            profileElements.put('OwnerRole', this.changeNulToNA(''+userDetails.UserRole.Name));
-						}
+                        if (parentRecord.get('OwnerId') != null) {
+                            String ownerId = ''+ parentRecord.get('OwnerId');
+						    if (queryResult.getUserRecords().containsKey(ownerId)) {
+							    User userDetails = queryResult.getUserRecords().get(ownerId);
+							    profileElements.put('OwnerId', this.changeNulToNA(''+ownerId));
+							    profileElements.put('OwnerName', this.changeNulToNA(''+userDetails.name));
+							    profileElements.put('OwnerEmail', this.changeNulToNA(''+userDetails.email));
+							    profileElements.put('OwnerMobilePhone', this.changeNulToNA(''+userDetails.MobilePhone));
+							    profileElements.put('OwnerPhone', this.changeNulToNA(''+userDetails.phone));
+                                profileElements.put('OwnerRole', this.changeNulToNA(''+userDetails.UserRole.Name));
+						    }
+                        } else {
+                            profileElements.put('OwnerId', 'NA');
+							profileElements.put('OwnerName', 'NA');
+							profileElements.put('OwnerEmail', 'NA');
+							profileElements.put('OwnerMobilePhone', 'NA');
+							profileElements.put('OwnerPhone', 'NA');
+                            profileElements.put('OwnerRole', 'NA');
+                        }
 					}
-
 					System.debug(className + ' : (getResultJson) : caseFields ('+this.changeNulToNA(''+parentRecord.get('CaseNumber'))+ ') -> '+ (String)Json.serialize(profileElements));
 					caseProfileJson.put(idKey, profileElements);
 				}

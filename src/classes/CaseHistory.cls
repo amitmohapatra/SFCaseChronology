@@ -60,54 +60,62 @@ public class CaseHistory extends CaseUtility {
 							}
 
 							// getting the user details from user table using  OwnerId
-							String whoId = ''+ childRecord.get('WhoId');
 							if (queryResult.getContactRecords() != null) {
-								if (queryResult.getContactRecords().containsKey(whoId)) {
-									Contact contactDetails = queryResult.getContactRecords().get(whoId);
-									openActivity.put('CustomerId', this.changeNulToNA(''+whoId));
-									openActivity.put('CustomerName', this.changeNulToNA(''+contactDetails.name));
-									openActivity.put('CustomerEmail', this.changeNulToNA(''+contactDetails.email));
-									openActivity.put('CustomerMobilePhone', this.changeNulToNA(''+contactDetails.MobilePhone));
-									openActivity.put('CustomerPhone', this.changeNulToNA(''+contactDetails.phone));
-								}
+                                if (childRecord.get('WhoId') != null) {
+                                    String whoId = ''+ childRecord.get('WhoId');
+								    if (queryResult.getContactRecords().containsKey(whoId)) {
+									    Contact contactDetails = queryResult.getContactRecords().get(whoId);
+									    openActivity.put('CustomerId', this.changeNulToNA(''+whoId));
+									    openActivity.put('CustomerName', this.changeNulToNA(''+contactDetails.name));
+									    openActivity.put('CustomerEmail', this.changeNulToNA(''+contactDetails.email));
+									    openActivity.put('CustomerMobilePhone', this.changeNulToNA(''+contactDetails.MobilePhone));
+									    openActivity.put('CustomerPhone', this.changeNulToNA(''+contactDetails.phone));
+								    }
+                                }
 							}
 
-							String createdById = ''+ childRecord.get('CreatedById');
+							
 							if (queryResult.getUserRecords() != null) {
-								if (queryResult.getUserRecords().containsKey(createdById)) {
-									User createByDetails = queryResult.getUserRecords().get(createdById);
-									openActivity.put('CreatedById', this.changeNulToNA(''+createdById));
-									openActivity.put('CreatedByName', this.changeNulToNA(''+createByDetails.name));
-									openActivity.put('CreatedByEmail', this.changeNulToNA(''+createByDetails.email));
-									openActivity.put('CreatedByMobilePhone', this.changeNulToNA(''+createByDetails.MobilePhone));
-									openActivity.put('CreatedByPhone', this.changeNulToNA(''+createByDetails.phone));
-								}
+                                if (childRecord.get('CreatedById') != null) {
+                                    String createdById = ''+ childRecord.get('CreatedById');
+								    if (queryResult.getUserRecords().containsKey(createdById)) {
+									    User createByDetails = queryResult.getUserRecords().get(createdById);
+									    openActivity.put('CreatedById', this.changeNulToNA(''+createdById));
+									    openActivity.put('CreatedByName', this.changeNulToNA(''+createByDetails.name));
+									    openActivity.put('CreatedByEmail', this.changeNulToNA(''+createByDetails.email));
+									    openActivity.put('CreatedByMobilePhone', this.changeNulToNA(''+createByDetails.MobilePhone));
+									    openActivity.put('CreatedByPhone', this.changeNulToNA(''+createByDetails.phone));
+								    }
+                                }
 							}
 
-
-							String modifiedById = ''+ childRecord.get('LastModifiedById');
 							if (queryResult.getUserRecords() != null) {
-								if (queryResult.getUserRecords().containsKey(modifiedById)) {
-									User modifiedByDetails = queryResult.getUserRecords().get(modifiedById);
-									openActivity.put('ModifiedById', this.changeNulToNA(''+modifiedById));
-									openActivity.put('ModifiedByName', this.changeNulToNA(''+modifiedByDetails.name));
-									openActivity.put('ModifiedByEmail', this.changeNulToNA(''+modifiedByDetails.email));
-									openActivity.put('ModifiedByMobilePhone', this.changeNulToNA(''+modifiedByDetails.MobilePhone));
-									openActivity.put('ModifiedByPhone', this.changeNulToNA(''+modifiedByDetails.phone));
-								}
+                                if (childRecord.get('LastModifiedById') != null) {
+                                    String modifiedById = ''+ childRecord.get('LastModifiedById');
+								    if (queryResult.getUserRecords().containsKey(modifiedById)) {
+									    User modifiedByDetails = queryResult.getUserRecords().get(modifiedById);
+									    openActivity.put('ModifiedById', this.changeNulToNA(''+modifiedById));
+									    openActivity.put('ModifiedByName', this.changeNulToNA(''+modifiedByDetails.name));
+									    openActivity.put('ModifiedByEmail', this.changeNulToNA(''+modifiedByDetails.email));
+									    openActivity.put('ModifiedByMobilePhone', this.changeNulToNA(''+modifiedByDetails.MobilePhone));
+									    openActivity.put('ModifiedByPhone', this.changeNulToNA(''+modifiedByDetails.phone));
+								    }
+                                }
 							}
 
 							// getting the user details from user table using  OwnerId
-							String ownerId = ''+ childRecord.get('OwnerId');
 							if (queryResult.getUserRecords() != null) {
-								if (queryResult.getUserRecords().containsKey(ownerId)) {
-									User userDetails = queryResult.getUserRecords().get(ownerId);
-									openActivity.put('OwnerId', this.changeNulToNA(''+ownerId));
-									openActivity.put('OwnerName', this.changeNulToNA(''+userDetails.name));
-									openActivity.put('OwnerEmail', this.changeNulToNA(''+userDetails.email));
-									openActivity.put('OwnerMobilePhone', this.changeNulToNA(''+userDetails.MobilePhone));
-									openActivity.put('OwnerPhone', this.changeNulToNA(''+userDetails.phone));
-								}
+                                if (childRecord.get('OwnerId') != null) {
+                                    String ownerId = ''+ childRecord.get('OwnerId');
+								    if (queryResult.getUserRecords().containsKey(ownerId)) {
+									    User userDetails = queryResult.getUserRecords().get(ownerId);
+									    openActivity.put('OwnerId', this.changeNulToNA(''+ownerId));
+									    openActivity.put('OwnerName', this.changeNulToNA(''+userDetails.name));
+									    openActivity.put('OwnerEmail', this.changeNulToNA(''+userDetails.email));
+									    openActivity.put('OwnerMobilePhone', this.changeNulToNA(''+userDetails.MobilePhone));
+									    openActivity.put('OwnerPhone', this.changeNulToNA(''+userDetails.phone));
+								    }
+                                }
 							}
 
 							System.debug(className + ' : (getResultJson) : opencctivities -> '+ (String)Json.serialize(openActivity));
@@ -133,16 +141,18 @@ public class CaseHistory extends CaseUtility {
 							history.put('Deleted', this.changeNulToNA(''+childRecord.get('IsDeleted')));
 							history.put('Field', this.changeNulToNA(''+childRecord.get('Field')));
 
-							String createdById = ''+ childRecord.get('CreatedById');
 							if (queryResult.getUserRecords() != null) {
-								if (queryResult.getUserRecords().containsKey(createdById)) {
-									User createByDetails = queryResult.getUserRecords().get(createdById);
-									history.put('CreatedById', this.changeNulToNA(''+createdById));
-									history.put('CreatedByName', this.changeNulToNA(''+createByDetails.name));
-									history.put('CreatedByEmail', this.changeNulToNA(''+createByDetails.email));
-									history.put('CreatedByMobilePhone', this.changeNulToNA(''+createByDetails.MobilePhone));
-									history.put('CreatedByPhone', this.changeNulToNA(''+createByDetails.phone));
-								}
+                                if (childRecord.get('CreatedById') != null) {
+                                    String createdById = ''+ childRecord.get('CreatedById');
+								    if (queryResult.getUserRecords().containsKey(createdById)) {
+									    User createByDetails = queryResult.getUserRecords().get(createdById);
+									    history.put('CreatedById', this.changeNulToNA(''+createdById));
+									    history.put('CreatedByName', this.changeNulToNA(''+createByDetails.name));
+									    history.put('CreatedByEmail', this.changeNulToNA(''+createByDetails.email));
+									    history.put('CreatedByMobilePhone', this.changeNulToNA(''+createByDetails.MobilePhone));
+									    history.put('CreatedByPhone', this.changeNulToNA(''+createByDetails.phone));
+								    }
+                                }
 							}
 
 							System.debug(className + ' : (getResultJson) : histories -> '+ (String)Json.serialize(history));
@@ -184,53 +194,62 @@ public class CaseHistory extends CaseUtility {
 							}
 
 							// getting the user details from user table using  OwnerId
-							String whoId = ''+ childRecord.get('WhoId');
 							if (queryResult.getContactRecords() != null) {
-								if (queryResult.getContactRecords().containsKey(whoId)) {
-									Contact contactDetails = queryResult.getContactRecords().get(whoId);
-									actHistory.put('CustomerId', this.changeNulToNA(''+whoId));
-									actHistory.put('CustomerName', this.changeNulToNA(''+contactDetails.name));
-									actHistory.put('CustomerEmail', this.changeNulToNA(''+contactDetails.email));
-									actHistory.put('CustomerMobilePhone', this.changeNulToNA(''+contactDetails.MobilePhone));
-									actHistory.put('CustomerPhone', this.changeNulToNA(''+contactDetails.phone));
-								}
+                                if (childRecord.get('WhoId') != null) {
+                                    String whoId = ''+ childRecord.get('WhoId');
+								    if (queryResult.getContactRecords().containsKey(whoId)) {
+									    Contact contactDetails = queryResult.getContactRecords().get(whoId);
+									    actHistory.put('CustomerId', this.changeNulToNA(''+whoId));
+									    actHistory.put('CustomerName', this.changeNulToNA(''+contactDetails.name));
+									    actHistory.put('CustomerEmail', this.changeNulToNA(''+contactDetails.email));
+									    actHistory.put('CustomerMobilePhone', this.changeNulToNA(''+contactDetails.MobilePhone));
+									    actHistory.put('CustomerPhone', this.changeNulToNA(''+contactDetails.phone));
+								    }
+                                }
 							}
 
-							String createdById = ''+ childRecord.get('CreatedById');
 							if (queryResult.getUserRecords() != null) {
-								if (queryResult.getUserRecords().containsKey(createdById)) {
-									User createByDetails = queryResult.getUserRecords().get(createdById);
-									actHistory.put('CreatedById', this.changeNulToNA(''+createdById));
-									actHistory.put('CreatedByName', this.changeNulToNA(''+createByDetails.name));
-									actHistory.put('CreatedByEmail', this.changeNulToNA(''+createByDetails.email));
-									actHistory.put('CreatedByMobilePhone', this.changeNulToNA(''+createByDetails.MobilePhone) );
-									actHistory.put('CreatedByPhone', this.changeNulToNA(''+createByDetails.phone));
-								}
+                                if (childRecord.get('CreatedById') != null) {
+                                    String createdById = ''+ childRecord.get('CreatedById');
+								    if (queryResult.getUserRecords().containsKey(createdById)) {
+									    User createByDetails = queryResult.getUserRecords().get(createdById);
+									    actHistory.put('CreatedById', this.changeNulToNA(''+createdById));
+									    actHistory.put('CreatedByName', this.changeNulToNA(''+createByDetails.name));
+									    actHistory.put('CreatedByEmail', this.changeNulToNA(''+createByDetails.email));
+									    actHistory.put('CreatedByMobilePhone', this.changeNulToNA(''+createByDetails.MobilePhone) );
+									    actHistory.put('CreatedByPhone', this.changeNulToNA(''+createByDetails.phone));
+								    }
+                                }
 							}
 
-							String modifiedById = ''+ childRecord.get('LastModifiedById');
 							if (queryResult.getUserRecords() != null) {
-								if (queryResult.getUserRecords().containsKey(modifiedById)) {
-									User modifiedByDetails = queryResult.getUserRecords().get(modifiedById);
-									actHistory.put('ModifiedById', this.changeNulToNA(''+modifiedById));
-									actHistory.put('ModifiedByName', this.changeNulToNA(''+modifiedByDetails.name));
-									actHistory.put('ModifiedByEmail', this.changeNulToNA(''+modifiedByDetails.email));
-									actHistory.put('ModifiedByMobilePhone', this.changeNulToNA(''+modifiedByDetails.MobilePhone));
-									actHistory.put('ModifiedByPhone', this.changeNulToNA(''+modifiedByDetails.phone));
-								}
+                                if (childRecord.get('LastModifiedById') != null) {
+                                    String modifiedById = ''+ childRecord.get('LastModifiedById');
+								    if (queryResult.getUserRecords().containsKey(modifiedById)) {
+									    User modifiedByDetails = queryResult.getUserRecords().get(modifiedById);
+									    actHistory.put('ModifiedById', this.changeNulToNA(''+modifiedById));
+									    actHistory.put('ModifiedByName', this.changeNulToNA(''+modifiedByDetails.name));
+									    actHistory.put('ModifiedByEmail', this.changeNulToNA(''+modifiedByDetails.email));
+									    actHistory.put('ModifiedByMobilePhone', this.changeNulToNA(''+modifiedByDetails.MobilePhone));
+									    actHistory.put('ModifiedByPhone', this.changeNulToNA(''+modifiedByDetails.phone));
+								    }
+                                }
 							}
 
 							// getting the user details from user table using  OwnerId
-							String ownerId = ''+ childRecord.get('OwnerId');
+							
 							if (queryResult.getUserRecords() != null) {
-								if (queryResult.getUserRecords().containsKey(ownerId)) {
-									User userDetails = queryResult.getUserRecords().get(ownerId);
-									actHistory.put('OwnerId', this.changeNulToNA(''+ownerId));
-									actHistory.put('OwnerName', this.changeNulToNA(''+userDetails.name));
-									actHistory.put('OwnerPhone', this.changeNulToNA(''+userDetails.phone));
-									actHistory.put('OwnerMobilePhone', this.changeNulToNA(''+userDetails.MobilePhone));
-									actHistory.put('OwnerEmail', this.changeNulToNA(''+userDetails.email));
-								}
+                                if (childRecord.get('OwnerId') != null) {
+                                    String ownerId = ''+ childRecord.get('OwnerId');
+								    if (queryResult.getUserRecords().containsKey(ownerId)) {
+									    User userDetails = queryResult.getUserRecords().get(ownerId);
+									    actHistory.put('OwnerId', this.changeNulToNA(''+ownerId));
+									    actHistory.put('OwnerName', this.changeNulToNA(''+userDetails.name));
+									    actHistory.put('OwnerPhone', this.changeNulToNA(''+userDetails.phone));
+									    actHistory.put('OwnerMobilePhone', this.changeNulToNA(''+userDetails.MobilePhone));
+									    actHistory.put('OwnerEmail', this.changeNulToNA(''+userDetails.email));
+								    }
+                                }
 							}
 
 							System.debug(className + ' : (getResultJson) : activityhistories -> '+ (String)Json.serialize(actHistory));
@@ -254,16 +273,18 @@ public class CaseHistory extends CaseUtility {
 							caseSol.put('CreatedDate', this.changeNulToNA(''+childRecord.get('CreatedDate'))); 
 							caseSol.put('Deleted', this.changeNulToNA(''+childRecord.get('IsDeleted'))); 
 
-							String createdById = ''+ childRecord.get('CreatedById');
 							if (queryResult.getUserRecords() != null) {
-								if (queryResult.getUserRecords().containsKey(createdById)) {
-									User createByDetails = queryResult.getUserRecords().get(createdById);
-									caseSol.put('CreatedById', this.changeNulToNA(''+childRecord.get('CreatedById')));
-									caseSol.put('CreatedByName', this.changeNulToNA(''+createByDetails.name));
-									caseSol.put('CreatedByEmail', this.changeNulToNA(''+createByDetails.email));
-									caseSol.put('CreatedByMobilePhone', this.changeNulToNA(''+createByDetails.MobilePhone));
-									caseSol.put('CreatedByPhone', this.changeNulToNA(''+createByDetails.phone)); 
-								}
+                                if (childRecord.get('CreatedById') != null) {
+                                    String createdById = ''+ childRecord.get('CreatedById');
+								    if (queryResult.getUserRecords().containsKey(createdById)) {
+									    User createByDetails = queryResult.getUserRecords().get(createdById);
+									    caseSol.put('CreatedById', this.changeNulToNA(''+childRecord.get('CreatedById')));
+									    caseSol.put('CreatedByName', this.changeNulToNA(''+createByDetails.name));
+									    caseSol.put('CreatedByEmail', this.changeNulToNA(''+createByDetails.email));
+									    caseSol.put('CreatedByMobilePhone', this.changeNulToNA(''+createByDetails.MobilePhone));
+									    caseSol.put('CreatedByPhone', this.changeNulToNA(''+createByDetails.phone)); 
+								    }
+                                }
 							}
 
 							System.debug(className + ' : (getResultJson) : casesolutions -> '+ (String)Json.serialize(caseSol));
@@ -289,28 +310,33 @@ public class CaseHistory extends CaseUtility {
 							caseComm.put('Deleted', this.changeNulToNA(''+childRecord.get('IsDeleted')));
 							caseComm.put('Published', this.changeNulToNA(''+childRecord.get('IsPublished')));
 
-							String createdById = ''+ childRecord.get('CreatedById');
+							
 							if (queryResult.getUserRecords() != null) {
-								if (queryResult.getUserRecords().containsKey(createdById)) {
-									User createByDetails = queryResult.getUserRecords().get(createdById);
-									caseComm.put('CreatedById', this.changeNulToNA(''+childRecord.get('CreatedById')));
-									caseComm.put('CreatedByName', this.changeNulToNA(''+createByDetails.name));
-									caseComm.put('CreatedByEmail', this.changeNulToNA(''+createByDetails.email));
-									caseComm.put('CreatedByMobilePhone', this.changeNulToNA(''+createByDetails.MobilePhone));
-									caseComm.put('CreatedByPhone', this.changeNulToNA(''+createByDetails.phone));
-								}
+                                if (childRecord.get('CreatedById') != null) {
+                                    String createdById = ''+ childRecord.get('CreatedById');
+								    if (queryResult.getUserRecords().containsKey(createdById)) {
+									    User createByDetails = queryResult.getUserRecords().get(createdById);
+									    caseComm.put('CreatedById', this.changeNulToNA(''+childRecord.get('CreatedById')));
+									    caseComm.put('CreatedByName', this.changeNulToNA(''+createByDetails.name));
+									    caseComm.put('CreatedByEmail', this.changeNulToNA(''+createByDetails.email));
+									    caseComm.put('CreatedByMobilePhone', this.changeNulToNA(''+createByDetails.MobilePhone));
+									    caseComm.put('CreatedByPhone', this.changeNulToNA(''+createByDetails.phone));
+								    }
+                                }
 							}
 
-							String modifiedById = ''+ childRecord.get('LastModifiedById');
 							if (queryResult.getUserRecords() != null) {
-								if (queryResult.getUserRecords().containsKey(modifiedById)) {
-									User modifiedByDetails = queryResult.getUserRecords().get(modifiedById);
-									caseComm.put('ModifiedById', this.changeNulToNA(''+childRecord.get('LastModifiedById')));
-									caseComm.put('ModifiedByName', this.changeNulToNA(''+modifiedByDetails.name));
-									caseComm.put('ModifiedByEmail', this.changeNulToNA(''+modifiedByDetails.email));
-									caseComm.put('ModifiedByMobilePhone', this.changeNulToNA(''+modifiedByDetails.MobilePhone));
-									caseComm.put('ModifiedByPhone', this.changeNulToNA(''+modifiedByDetails.phone));
-								}
+                                if (childRecord.get('LastModifiedById') != null) {
+                                    String modifiedById = ''+ childRecord.get('LastModifiedById');
+								    if (queryResult.getUserRecords().containsKey(modifiedById)) {
+									    User modifiedByDetails = queryResult.getUserRecords().get(modifiedById);
+									    caseComm.put('ModifiedById', this.changeNulToNA(''+childRecord.get('LastModifiedById')));
+									    caseComm.put('ModifiedByName', this.changeNulToNA(''+modifiedByDetails.name));
+									    caseComm.put('ModifiedByEmail', this.changeNulToNA(''+modifiedByDetails.email));
+									    caseComm.put('ModifiedByMobilePhone', this.changeNulToNA(''+modifiedByDetails.MobilePhone));
+									    caseComm.put('ModifiedByPhone', this.changeNulToNA(''+modifiedByDetails.phone));
+								    }
+                                }
 							}
 
 							System.debug(className + ' : (getResultJson) : casecomments -> '+ (String)Json.serialize(caseComm));
@@ -337,28 +363,32 @@ public class CaseHistory extends CaseUtility {
 							attach.put('Deleted', this.changeNulToNA(''+childRecord.get('IsDeleted')));
 							attach.put('Private', this.changeNulToNA(''+childRecord.get('IsPrivate')));
 
-							String createdById = ''+ childRecord.get('CreatedById');
 							if (queryResult.getUserRecords() != null) {
-								if (queryResult.getUserRecords().containsKey(createdById)) {
-									User createByDetails = queryResult.getUserRecords().get(createdById);
-									attach.put('CreatedById', this.changeNulToNA(''+childRecord.get('CreatedById')));
-									attach.put('CreatedByName', this.changeNulToNA(''+createByDetails.name));
-									attach.put('CreatedByEmail', this.changeNulToNA(''+createByDetails.email));
-									attach.put('CreatedByMobilePhone', this.changeNulToNA(''+createByDetails.MobilePhone));
-									attach.put('CreatedByPhone', this.changeNulToNA(''+createByDetails.phone));
-								}
+                                if (childRecord.get('CreatedById') != null) {
+                                    String createdById = ''+ childRecord.get('CreatedById');
+								    if (queryResult.getUserRecords().containsKey(createdById)) {
+									    User createByDetails = queryResult.getUserRecords().get(createdById);
+									    attach.put('CreatedById', this.changeNulToNA(''+childRecord.get('CreatedById')));
+									    attach.put('CreatedByName', this.changeNulToNA(''+createByDetails.name));
+									    attach.put('CreatedByEmail', this.changeNulToNA(''+createByDetails.email));
+									    attach.put('CreatedByMobilePhone', this.changeNulToNA(''+createByDetails.MobilePhone));
+									    attach.put('CreatedByPhone', this.changeNulToNA(''+createByDetails.phone));
+								    }
+                                }
 							}
 
-							String modifiedById = ''+ childRecord.get('LastModifiedById');
 							if (queryResult.getUserRecords() != null) {
-								if (queryResult.getUserRecords().containsKey(modifiedById)) {
-									User modifiedByDetails = queryResult.getUserRecords().get(modifiedById);
-									attach.put('ModifiedById', this.changeNulToNA(''+childRecord.get('LastModifiedById')));
-									attach.put('ModifiedByName', this.changeNulToNA(''+modifiedByDetails.name));
-									attach.put('ModifiedByEmail', this.changeNulToNA(''+modifiedByDetails.email));
-									attach.put('ModifiedByMobilePhone', this.changeNulToNA(''+modifiedByDetails.MobilePhone));
-									attach.put('ModifiedByPhone', this.changeNulToNA(''+modifiedByDetails.phone));
-								}
+                                if (childRecord.get('LastModifiedById') != null) {
+                                    String modifiedById = ''+ childRecord.get('LastModifiedById');
+								    if (queryResult.getUserRecords().containsKey(modifiedById)) {
+									    User modifiedByDetails = queryResult.getUserRecords().get(modifiedById);
+									    attach.put('ModifiedById', this.changeNulToNA(''+childRecord.get('LastModifiedById')));
+									    attach.put('ModifiedByName', this.changeNulToNA(''+modifiedByDetails.name));
+									    attach.put('ModifiedByEmail', this.changeNulToNA(''+modifiedByDetails.email));
+									    attach.put('ModifiedByMobilePhone', this.changeNulToNA(''+modifiedByDetails.MobilePhone));
+									    attach.put('ModifiedByPhone', this.changeNulToNA(''+modifiedByDetails.phone));
+								    }
+                                }
 							}
 
 							System.debug(className + ' : (getResultJson) : casecomments -> null');
